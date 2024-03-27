@@ -135,21 +135,11 @@ class User {
         [username],
     );
 
-    const jobsQuery = db.query(
-      `SELECT job_id AS "jobId"
-       FROM applications
-       WHERE username = $1`,
-      [username]
-    );
-
-    const [userRes, jobsRes] = await Promise.all([userQuery, jobsQuery]);
+    const [userRes] = await Promise.all([userQuery]);
 
     const user = userRes.rows[0];
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
-
-    // getting the jobId's from the applications table and adding them to the user object
-    user.jobs = jobsRes.rows.map(job => job.jobId)
 
     return user;
   }
@@ -217,41 +207,6 @@ class User {
     }
   }
 
-  static async applyForJob(username, jobId) {
-    // Check if the user and job exist concurrently
-    const [userRes, jobRes] = await Promise.all([
-      db.query(
-        `SELECT username
-         FROM users
-         WHERE username = $1`,
-        [username]
-      ),
-      db.query(
-        `SELECT id
-         FROM jobs
-         WHERE id = $1`,
-        [jobId]
-      )
-    ]);
-  
-    if (!userRes.rows[0]) {
-      throw new NotFoundError(`No user: ${username}`);
-    }
-  
-    if (!jobRes.rows[0]) {
-      throw new NotFoundError(`No job: ${jobId}`);
-    }
-  
-    // Proceed with the job application
-    const result = await db.query(
-      `INSERT INTO applications (username, job_id)
-       VALUES ($1, $2)
-       RETURNING job_id AS "applied"`,
-      [username, jobId]
-    );
-  
-    return result.rows[0];
-  }
 
 }
 

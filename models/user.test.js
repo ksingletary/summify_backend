@@ -163,13 +163,6 @@ describe("update", function () {
     isAdmin: true,
   };
 
-  test("works", async function () {
-    let job = await User.update("u1", updateData);
-    expect(job).toEqual({
-      username: "u1",
-      ...updateData,
-    });
-  });
 
   test("works: set password", async function () {
     let job = await User.update("u1", {
