@@ -3,6 +3,7 @@
 const db = require("../db");
 const bcrypt = require("bcrypt");
 const { sqlForPartialUpdate } = require("../helpers/sql");
+const UserArticles = require("./userArticles");
 const {
   NotFoundError,
   BadRequestError,
@@ -207,6 +208,19 @@ class User {
     }
   }
 
+  static async createSummarizedArticle(username, summarizedArticleData) {
+    return UserArticles.create(username, summarizedArticleData);
+  }
+
+  static async getAllSummarizedArticles(username) {
+    return UserArticles.getAll(username);
+  }
+
+  static async deleteSummarizedArticle(username, articleTitle) {
+    return UserArticles.delete(username, articleTitle);
+  }
+
+  
 
 }
 

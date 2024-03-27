@@ -11,6 +11,7 @@ const User = require("../models/user");
 const { createToken } = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
+const UserArticle = require('../models/userArticles');
 
 const router = express.Router();
 
@@ -136,5 +137,55 @@ router.delete("/:username", authenticateJWT, ensureCorrectUserOrAdmin, async fun
   }
 });
 
+// Route to create a summarized article for a user
+router.post('/:username/summarized-articles', async (req, res, next) => {
+  try {
+    const { articleTitle, articleUrl, summary } = req.body;
+    const { username } = req.params;
+    const article = await UserArticle.create(username, articleTitle, articleUrl, summary);
+    return res.status(201).json({ article });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+// Route to retrieve all summarized articles for a user
+router.get('/:username/summarized-articles', async (req, res, next) => {
+  try {
+    const { username } = req.params;
+    const articles = await UserArticle.getAll(username);
+    return res.json({ articles });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+// Route to update a summarized article for a user
+router.put('/:username/summarized-articles/:articleTitle', async (req, res, next) => {
+  try {
+    const { articleTitle } = req.params;
+    const { username } = req.params;
+    const newData = req.body;
+    const updatedArticle = await UserArticle.update(username, articleTitle, newData);
+    return res.json({ article: updatedArticle });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+// Route to delete a summarized article for a user
+router.delete('/:username/summarized-articles/:articleTitle', async (req, res, next) => {
+  try {
+    const { articleTitle } = req.params;
+    const { username } = req.params;
+    await UserArticle.delete(username, articleTitle);
+    return res.json({ message: 'Summarized article deleted successfully' });
+  } catch (err) {
+    return next(err);
+  }
+});
 
 module.exports = router;
+
+
+
