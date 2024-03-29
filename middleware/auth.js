@@ -139,29 +139,6 @@ async function ensureUserExists(req, res, next) {
   }
 }
 
-function validateJobSearch(req, res, next) {
-  try {
-    const validFilterKeys = ["title", "minSalary", "hasEquity"];
-    for (let key in req.query) {
-      if (!validFilterKeys.includes(key)) {
-        throw new BadRequestError(`Invalid filter key: ${key}`);
-      }
-    }
-
-    if (req.query.minSalary !== undefined && isNaN(req.query.minSalary)) {
-      throw new BadRequestError("minSalary must be a number.");
-    }
-
-    if (req.query.hasEquity !== undefined && req.query.hasEquity !== 'true' && req.query.hasEquity !== 'false') {
-      throw new BadRequestError("hasEquity must be a boolean.");
-    }
-
-    return next();
-  } catch (err) {
-    return next(err);
-  }
-}
-
 
 module.exports = {
   authenticateJWT,
@@ -170,6 +147,5 @@ module.exports = {
   ensureCorrectUserOrAdmin,
   ensureAdmin,
   validateUserRegistration,
-  validateJobSearch,
   ensureUserExists
 };
