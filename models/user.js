@@ -27,6 +27,7 @@ class User {
     const result = await db.query(
           `SELECT username,
                   password,
+                  user_id AS "userId",
                   first_name AS "firstName",
                   last_name AS "lastName",
                   email,
