@@ -21,7 +21,7 @@ function getDatabaseUri() {
 
 const BCRYPT_WORK_FACTOR = process.env.NODE_ENV === "test" ? 1 : 12;
 
-console.log("Autoblogger Config:".green);
+console.log("Summify Config:".green);
 console.log("NODE_ENV:".yellow, NODE_ENV);
 console.log("SECRET_KEY:".red, SECRET_KEY);
 // console.log("UNSPLASH CLIENT ID:".yellow, UNSPLASH_CLIENT_ID);
