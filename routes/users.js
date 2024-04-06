@@ -10,8 +10,6 @@ const { BadRequestError } = require("../expressError");
 const User = require("../models/user");
 const { createToken } = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
-const userUpdateSchema = require("../schemas/userUpdate.json");
-const UserArticle = require('../models/userArticles');
 
 const router = express.Router();
 
@@ -90,32 +88,6 @@ router.get("/", ensureAdmin, async function (req, res, next) {
 router.get("/:username", authenticateJWT, ensureCorrectUserOrAdmin, async function (req, res, next) {
   try {
     const user = await User.get(req.params.username);
-    return res.json({ user });
-  } catch (err) {
-    return next(err);
-  }
-});
-
-
-/** PATCH /[username] { user } => { user }
- *
- * Data can include:
- *   { firstName, lastName, password, email }
- *
- * Returns { username, firstName, lastName, email, isAdmin }
- *
- * Authorization required: login
- **/
-
-router.patch("/:username", authenticateJWT, ensureCorrectUserOrAdmin, async function (req, res, next) {
-  try {
-    const validator = jsonschema.validate(req.body, userUpdateSchema);
-    if (!validator.valid) {
-      const errs = validator.errors.map(e => e.stack);
-      throw new BadRequestError(errs);
-    }
-
-    const user = await User.update(req.params.username, req.body);
     return res.json({ user });
   } catch (err) {
     return next(err);
