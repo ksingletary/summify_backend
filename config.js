@@ -13,8 +13,8 @@ const NODE_ENV = process.env.NODE_ENV;
 // Use dev database, testing database, or via env var, production database
 function getDatabaseUri() {
   return (process.env.NODE_ENV === "test")
-      ? "summify_test"
-      : process.env.DATABASE_URL || "summify";
+      ? "postgresql:///summify_test"
+      : process.env.DATABASE_URL || "postgresql:///summify";
 }
 
 // Speed up bcrypt during tests, since the algorithm safety isn't being tested
