@@ -43,4 +43,4 @@ The project is structured into two main parts:
 - RapidAPI is a platform that allows developers to discover, test, and connect to thousands of APIs provided by various developers and organizations. One of the APIs available is the Article Extractor and Summarizer API. This API provides developers with tools to extract relevant content from articles and then summarize it into concise and digestible formats. 
 
 Database Schema
-The database schema can be found here: 
+The database schema can be found in the backend repository as "Summify_Schema.png".
