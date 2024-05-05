@@ -1,6 +1,7 @@
 "use strict";
 
 const db = require("../db");
+const UserArticles = require("./userArticles");
 const bcrypt = require("bcrypt");
 const {
   NotFoundError,
@@ -142,6 +143,18 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${username}`);
 
     return user;
+  }
+
+  static async createSummarizedArticle(username, summarizedArticleData) {
+    return UserArticles.create(username, summarizedArticleData);
+  }
+
+  static async getAllSummarizedArticles(username) {
+    return UserArticles.getAll(username);
+  }
+
+  static async deleteSummarizedArticle(username, articleTitle) {
+    return UserArticles.delete(username, articleTitle);
   }
   
 

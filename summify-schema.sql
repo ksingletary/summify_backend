@@ -11,3 +11,12 @@ CREATE TABLE users (
   PRIMARY KEY (user_id)
 );
 
+
+CREATE TABLE summarized_articles (
+  article_id SERIAL PRIMARY KEY,
+  username VARCHAR(30) NOT NULL REFERENCES users(username),
+  article_url TEXT NOT NULL,
+  summary TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT unique_article UNIQUE (username, summary)
+);
