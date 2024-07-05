@@ -1,5 +1,7 @@
 ## Summify
 
+[View Summify](https://summify-aoe7.onrender.com/)
+
 Summify is a full-stack web application designed to summarize any article using OpenAI. It utilizes a variety of modern technologies and APIs to provide users with a seamless experience.
 
 ## Deployment
